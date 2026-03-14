@@ -54,21 +54,5 @@ public class FollowCamera : MonoBehaviour
         
         transform.LookAt(target.position + Vector3.up * 1f);
     }
-
-    void OnDrawGizmosSelected()
-    {
-        if (target != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, target.position);
-            
-            Gizmos.color = Color.blue;
-            Vector3 closePos = target.position - target.forward * minDistance + Vector3.up * height;
-            Vector3 farPos = target.position - target.forward * maxDistance + Vector3.up * height;
-            Gizmos.DrawWireSphere(closePos, 0.3f);
-            Gizmos.DrawWireSphere(farPos, 0.3f);
-            Gizmos.DrawLine(closePos, farPos);
-        }
-    }
     
 }

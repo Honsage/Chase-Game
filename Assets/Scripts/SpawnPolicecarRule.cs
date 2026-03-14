@@ -45,12 +45,5 @@ public class SpawnCarRule : MonoBehaviour
                 }
             }
         }
-        
-        Debug.Log("Не удалось найти место для спавна полиции");
-    }
-    
-    public void OnEnemyDestroyed()
-    {
-        spawnedEnemies--;
     }
 }

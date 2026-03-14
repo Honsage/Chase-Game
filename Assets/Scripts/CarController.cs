@@ -50,10 +50,4 @@ public class CarController : MonoBehaviour
 
         rb.AddForce(Vector3.down * gravityForce, ForceMode.Acceleration);
     }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, transform.forward * 2f);
-    }
 }
