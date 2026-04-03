@@ -13,7 +13,6 @@ public class CarController : MonoBehaviour
     private float currentTurn = 0f;
     private Rigidbody rb;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -36,7 +35,9 @@ public class CarController : MonoBehaviour
         if (Input.GetKey(KeyCode.Q)) turn = -1f;
         else if (Input.GetKey(KeyCode.E)) turn = 1f;
 
-        currentSpeed = Mathf.Lerp(currentSpeed, vertical * moveSpeed, Time.deltaTime * acceleration);
+        float accelerationCoef = Input.GetKey(KeyCode.LeftShift) ? 1.75f : 1f;
+
+        currentSpeed = Mathf.Lerp(currentSpeed, vertical * moveSpeed * accelerationCoef, Time.deltaTime * acceleration);
         currentTurn = Mathf.Lerp(currentTurn, turn * turnSpeed, Time.deltaTime * acceleration);
     }
 
