@@ -9,8 +9,8 @@ public class SpawnCarRule : MonoBehaviour
     public Transform playerCar;
     public float spawnInterval = 10f;
     public int maxEnemies = 3;
-    public float spawnRadius = 30f;
-    public float minSpawnDistance = 20f;
+    public float spawnRadius = 25f;
+    public float minSpawnDistance = 10f;
     
     private int spawnedEnemies = 0;
     
