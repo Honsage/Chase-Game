@@ -16,6 +16,7 @@ public class HeroStats : MonoBehaviour
 
     [Header("Effects")]
     public ParticleSystem hitParticles;
+    public AudioSource hitSound;
 
     private bool isGameOver = false;
     private const string BEST_TIME_KEY = "BestTime";
@@ -40,6 +41,11 @@ public class HeroStats : MonoBehaviour
     {
         if (isGameOver) return;
         
+        if (hitSound != null)
+        {
+            hitSound.Play();
+        }
+        
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUI();
@@ -50,7 +56,6 @@ public class HeroStats : MonoBehaviour
         {
             hitParticles.Play();
         }
-
 
         if (currentHealth <= 0)
         {

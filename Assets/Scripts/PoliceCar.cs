@@ -6,6 +6,7 @@ public class PoliceCar : MonoBehaviour
     public Transform player;
     public Light redLight;
     public Light blueLight;
+    public AudioSource sirenAudio;
     
     private NavMeshAgent agent;
     private Animator anim;
@@ -31,6 +32,12 @@ public class PoliceCar : MonoBehaviour
             Debug.Log("Animator started playing: " + anim.GetCurrentAnimatorStateInfo(0).length);
 
         }
+
+        if (sirenAudio != null)
+        {
+            sirenAudio.loop = true;
+            sirenAudio.Play();
+        }
     }
     
     void Update()
@@ -44,6 +51,18 @@ public class PoliceCar : MonoBehaviour
         {
             AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
             Debug.Log("Normalized time: " + stateInfo.normalizedTime);
+        }
+
+        if (sirenAudio != null && player != null)
+        {
+            float distance = Vector3.Distance(transform.position, player.position);
+            float maxDistance = 30f;
+            float minDistance = 3f;
+            
+            float volume = 1f - Mathf.Clamp01((distance - minDistance) / (maxDistance - minDistance));
+            
+            sirenAudio.volume = volume;
+            Debug.Log($"Distance: {distance:F1}, Volume: {volume:F2}");
         }
     }
 
