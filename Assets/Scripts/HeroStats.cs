@@ -14,6 +14,9 @@ public class HeroStats : MonoBehaviour
     public Text timerText;
     public string gameOverSceneName = "PreliminaryScene";
 
+    [Header("Effects")]
+    public ParticleSystem hitParticles;
+
     private bool isGameOver = false;
     private const string BEST_TIME_KEY = "BestTime";
     
@@ -43,6 +46,12 @@ public class HeroStats : MonoBehaviour
         
         Debug.Log($"Получен урон! Здоровье: {currentHealth}/{maxHealth}");
         
+        if (hitParticles != null)
+        {
+            hitParticles.Play();
+        }
+
+
         if (currentHealth <= 0)
         {
             GiveUp();
