@@ -8,10 +8,13 @@ public class HeroStats : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
-    public Image healthBarFill;
-    public Text healthText;
+    
+    // UI элементы (назначаются из NetworkPlayer)
+    private Image healthBarFill;
+    private Text healthText;
+    private Text timerText;
+    
     public float gameTime = 0f;
-    public Text timerText;
     public string gameOverSceneName = "PreliminaryScene";
 
     [Header("Effects")]
@@ -20,12 +23,32 @@ public class HeroStats : MonoBehaviour
 
     private bool isGameOver = false;
     private const string BEST_TIME_KEY = "BestTime";
+    private bool isInitialized = false; // Флаг, что UI инициализирован
+    
+    public void SetUIReferences(Image fill, Text text)
+    {
+        healthBarFill = fill;
+        healthText = text;
+        isInitialized = true;
+        UpdateHealthUI(); // Обновляем UI сразу после назначения ссылок
+    }
+    
+    public void SetTimerReference(Text timer)
+    {
+        timerText = timer;
+        UpdateTimerUI(); // Обновляем таймер сразу
+    }
     
     void Start()
     {
         currentHealth = maxHealth;
-        UpdateHealthUI();
         gameTime = 0f;
+        
+        // Если ссылки уже назначены (через NetworkPlayer), обновляем UI
+        if (isInitialized)
+        {
+            UpdateHealthUI();
+        }
     }
     
     void Update()
