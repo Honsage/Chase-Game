@@ -18,8 +18,12 @@ public class HeroStats : NetworkBehaviour
     public ParticleSystem hitParticles;
     public AudioSource hitSound;
     
+    private PTSHandler ptsHandler;
+    
     public override void OnNetworkSpawn()
     {
+        ptsHandler = GetComponent<PTSHandler>();
+        
         if (IsOwner)
         {
             currentHealth.Value = maxHealth;
@@ -48,6 +52,13 @@ public class HeroStats : NetworkBehaviour
         if (hitParticles != null) hitParticles.Play();
         
         currentHealth.Value -= damage;
+        
+        // === ОТПРАВКА PTS ПАКЕТА ===
+        if (ptsHandler != null)
+        {
+            ptsHandler.SendPTSData((int)currentHealth.Value, transform.position);
+        }
+        
         Debug.Log($"Получен урон! Здоровье: {currentHealth.Value}/{maxHealth}");
     }
     
