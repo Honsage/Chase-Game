@@ -1,128 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class HeroStats : MonoBehaviour
+public class HeroStats : NetworkBehaviour
 {
     public float maxHealth = 100f;
-    public float currentHealth;
-    
-    // UI элементы (назначаются из NetworkPlayer)
-    private Image healthBarFill;
-    private Text healthText;
-    private Text timerText;
-    
+    public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
     public float gameTime = 0f;
-    public string gameOverSceneName = "PreliminaryScene";
-
+    
+    public System.Action<float, float> OnHealthChanged;
+    public System.Action<float> OnTimeChanged;
+    
+    private const string BEST_TIME_KEY = "BestTime";
+    private bool isGameOver = false;
+    
     [Header("Effects")]
     public ParticleSystem hitParticles;
     public AudioSource hitSound;
-
-    private bool isGameOver = false;
-    private const string BEST_TIME_KEY = "BestTime";
-    private bool isInitialized = false; // Флаг, что UI инициализирован
     
-    public void SetUIReferences(Image fill, Text text)
+    public override void OnNetworkSpawn()
     {
-        healthBarFill = fill;
-        healthText = text;
-        isInitialized = true;
-        UpdateHealthUI(); // Обновляем UI сразу после назначения ссылок
-    }
-    
-    public void SetTimerReference(Text timer)
-    {
-        timerText = timer;
-        UpdateTimerUI(); // Обновляем таймер сразу
-    }
-    
-    void Start()
-    {
-        currentHealth = maxHealth;
-        gameTime = 0f;
-        
-        // Если ссылки уже назначены (через NetworkPlayer), обновляем UI
-        if (isInitialized)
+        if (IsOwner)
         {
-            UpdateHealthUI();
+            currentHealth.Value = maxHealth;
         }
+        
+        currentHealth.OnValueChanged += (oldVal, newVal) =>
+        {
+            OnHealthChanged?.Invoke(newVal, maxHealth);
+            if (newVal <= 0 && IsOwner) GiveUp();
+        };
     }
     
     void Update()
     {
-        if (!isGameOver)
-        {
-            gameTime += Time.deltaTime;
-            UpdateTimerUI();
-        }
+        if (!IsOwner || isGameOver) return;
+        
+        gameTime += Time.deltaTime;
+        OnTimeChanged?.Invoke(gameTime);
     }
     
     public void TakeDamage(float damage)
     {
-        if (isGameOver) return;
+        if (!IsOwner || isGameOver) return;
         
-        if (hitSound != null)
-        {
-            hitSound.Play();
-        }
+        if (hitSound != null) hitSound.Play();
+        if (hitParticles != null) hitParticles.Play();
         
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthUI();
-        
-        Debug.Log($"Получен урон! Здоровье: {currentHealth}/{maxHealth}");
-        
-        if (hitParticles != null)
-        {
-            hitParticles.Play();
-        }
-
-        if (currentHealth <= 0)
-        {
-            GiveUp();
-        }
-    }
-    
-    void UpdateHealthUI()
-    {
-        if (healthBarFill != null)
-        {
-            healthBarFill.fillAmount = currentHealth / maxHealth;
-        }
-        
-        if (healthText != null)
-        {
-            healthText.text = $"{Mathf.RoundToInt(currentHealth)} / {maxHealth}";
-        }
-    }
-    
-    void UpdateTimerUI()
-    {
-        if (timerText != null)
-        {
-            int minutes = Mathf.FloorToInt(gameTime / 60);
-            int seconds = Mathf.FloorToInt(gameTime % 60);
-            timerText.text = $"{minutes:00}:{seconds:00}";
-        }
+        currentHealth.Value -= damage;
+        Debug.Log($"Получен урон! Здоровье: {currentHealth.Value}/{maxHealth}");
     }
     
     void GiveUp()
     {
         isGameOver = true;
-
+        
         float bestTime = PlayerPrefs.GetFloat(BEST_TIME_KEY, 999999f);
         if (gameTime < bestTime)
         {
             PlayerPrefs.SetFloat(BEST_TIME_KEY, gameTime);
             PlayerPrefs.Save();
-            Debug.Log($"Новый рекорд! Время: {gameTime:F1} секунд");
         }
         
-        Debug.Log("Вы арестованы полицией!");
-        Debug.Log($"Время выживания: {gameTime:F1} секунд");
-        SceneManager.LoadScene(gameOverSceneName);
+        SceneManager.LoadScene("PreliminaryScene");
     }
 }

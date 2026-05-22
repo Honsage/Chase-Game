@@ -4983,11 +4983,11 @@ GameObject:
   - component: {fileID: 3980265964525949560}
   - component: {fileID: 5511486618296049528}
   - component: {fileID: 126875959259768081}
+  - component: {fileID: -6268578226493827110}
   - component: {fileID: 7763419660168005148}
   - component: {fileID: 8738135657670550913}
-  - component: {fileID: -6268578226493827110}
   - component: {fileID: -8177076396876933654}
-  - component: {fileID: -4180365605224468384}
+  - component: {fileID: 4296610611707695450}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -5080,6 +5080,27 @@ MonoBehaviour:
   turnSpeed: 200
   acceleration: 3
   gravityForce: 20
+--- !u!114 &-6268578226493827110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2778307526294813498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 732500187
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &7763419660168005148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5094,10 +5115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  healthBarFill: {fileID: 0}
-  healthText: {fileID: 0}
   gameTime: 0
-  timerText: {fileID: 0}
   gameOverSceneName: PreliminaryScene
   hitParticles: {fileID: 8155420923729009334}
   hitSound: {fileID: 8738135657670550913}
@@ -5197,27 +5215,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-6268578226493827110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2778307526294813498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4045670327
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &-8177076396876933654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5249,7 +5246,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-4180365605224468384
+--- !u!114 &4296610611707695450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
