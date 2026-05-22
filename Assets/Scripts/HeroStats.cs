@@ -53,7 +53,6 @@ public class HeroStats : NetworkBehaviour
         
         currentHealth.Value -= damage;
         
-        // === ОТПРАВКА PTS ПАКЕТА ===
         if (ptsHandler != null)
         {
             ptsHandler.SendPTSData((int)currentHealth.Value, transform.position);

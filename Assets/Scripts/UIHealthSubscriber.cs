@@ -11,7 +11,6 @@ public class UIHealthSubscriber : MonoBehaviour
     
     void Start()
     {
-        // Ищем игрока с IsOwner
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {

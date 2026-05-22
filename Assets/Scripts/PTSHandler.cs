@@ -21,7 +21,7 @@ public class PTSHandler : NetworkBehaviour
     {
         var writer = new FastBufferWriter(1100, Allocator.Temp);
         using (writer)
-        {
+        {   
             writer.WriteValueSafe(health);   
             writer.WriteValueSafe(position);  
             NetworkManager.Singleton.CustomMessagingManager.SendNamedMessageToAll(PTS_TOPIC, writer);
@@ -35,11 +35,6 @@ public class PTSHandler : NetworkBehaviour
         
         Debug.Log($"[PTS Пакет] Получены данные от {senderId}: HP={health}, Pos={pos}");
         
-        // Если пакет от другого игрока — обновляем здоровье (для врагов)
-        if (senderId != NetworkManager.Singleton.LocalClientId && heroStats != null)
-        {
-            // Не наносим урон, а просто синхронизируем состояние
-            // heroStats.SyncHealth(health); // можно добавить метод, если нужно
-        }
+        if (senderId != NetworkManager.Singleton.LocalClientId && heroStats != null) {}
     }
 }

@@ -29,10 +29,8 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        // Принудительно проверяем, что скрипт включен
         if (!enabled) return;
         
-        // Отладка ввода
         if (Input.anyKeyDown)
         {
             Debug.Log($"Key pressed: Vertical={Input.GetAxis("Vertical")}, Q={Input.GetKey(KeyCode.Q)}, E={Input.GetKey(KeyCode.E)}");

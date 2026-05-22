@@ -11,7 +11,6 @@ public class PreliminaryMenu : MonoBehaviour
     public void ExitGame()
     {
         Debug.Log("Exit out of game!");
-        // UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
     }
 }

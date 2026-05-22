@@ -8,7 +8,6 @@ public class NetworkLauncher : MonoBehaviour
     
     private void Awake()
     {
-        // Чтобы NetworkManager не уничтожался при загрузке сцены
         DontDestroyOnLoad(gameObject);
     }
     
