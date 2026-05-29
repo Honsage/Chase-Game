@@ -6,35 +6,37 @@ public class UIHealthSubscriber : MonoBehaviour
     public Image healthBarFill;
     public Text healthText;
     public Text timerText;
-    
+
     private HeroStats targetStats;
-    
-    void Start()
+
+    public void SetTarget(HeroStats stats)
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
+        // Отписываемся от старого
+        if (targetStats != null)
         {
-            var netObj = player.GetComponent<Unity.Netcode.NetworkObject>();
-            if (netObj != null && netObj.IsOwner)
-            {
-                targetStats = player.GetComponent<HeroStats>();
-                if (targetStats != null)
-                {
-                    targetStats.OnHealthChanged += UpdateHealth;
-                    targetStats.OnTimeChanged += UpdateTimer;
-                }
-                break;
-            }
+            targetStats.OnHealthChanged -= UpdateHealth;
+            targetStats.OnTimeChanged -= UpdateTimer;
+        }
+
+        targetStats = stats;
+
+        if (targetStats != null)
+        {
+            targetStats.OnHealthChanged += UpdateHealth;
+            targetStats.OnTimeChanged += UpdateTimer;
+
+            // Принудительное обновление
+            UpdateHealth(targetStats.currentHealth.Value, targetStats.maxHealth);
         }
     }
-    
-    void UpdateHealth(float current, float max)
+
+    private void UpdateHealth(float current, float max)
     {
         if (healthBarFill != null) healthBarFill.fillAmount = current / max;
-        if (healthText != null) healthText.text = $"{Mathf.RoundToInt(current)} / {max}";
+        if (healthText != null) healthText.text = $"{Mathf.RoundToInt(current)} / {Mathf.RoundToInt(max)}";
     }
-    
-    void UpdateTimer(float time)
+
+    private void UpdateTimer(float time)
     {
         if (timerText != null)
         {

@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 373551887}
   - component: {fileID: 373551886}
   - component: {fileID: 373551885}
+  - component: {fileID: 373551888}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -229,7 +230,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: dc08084e67a01ea46adbbe857d2b1fb7, type: 2}
+      - {fileID: 11400000, guid: 0ed631009cf81dc4190331f4e13eaac3, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -263,6 +264,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &373551888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373551884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de4a0c84bb6ad741b017197dfd53222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSceneName: MainScene
 --- !u!1 &493679979
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,51 +572,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &725256995
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 725256997}
-  - component: {fileID: 725256996}
-  m_Layer: 0
-  m_Name: NetworkLauncher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &725256996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725256995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7de4a0c84bb6ad741b017197dfd53222, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameSceneName: MainScene
---- !u!4 &725256997
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725256995}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.9, y: 2.5, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1150834739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +1015,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 725256996}
+      - m_Target: {fileID: 373551888}
         m_TargetAssemblyTypeName: NetworkLauncher, Assembly-CSharp
         m_MethodName: StartAsClient
         m_Mode: 1
@@ -1359,7 +1328,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 725256996}
+      - m_Target: {fileID: 373551888}
         m_TargetAssemblyTypeName: NetworkLauncher, Assembly-CSharp
         m_MethodName: StartAsHost
         m_Mode: 1
@@ -1552,5 +1521,4 @@ SceneRoots:
   - {fileID: 2069113064}
   - {fileID: 493679982}
   - {fileID: 48941421}
-  - {fileID: 725256997}
   - {fileID: 373551887}

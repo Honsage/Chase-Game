@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
@@ -14,45 +12,24 @@ public class FollowCamera : MonoBehaviour
     public float maxDistance = 10f;
     public float zoomSpeed = 2f;
 
-    public bool rotateWithCar = true;
-
     private float currentDistance;
 
     void Start()
     {
-        if (target == null)
-        {
-            GameObject car = GameObject.FindGameObjectWithTag("Player");
-            if (car != null)
-                target = car.transform;
-        }
-        
         currentDistance = distance;
     }
 
     void LateUpdate()
     {
-        if (target == null)
-            return;
-            
+        if (target == null) return;
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         currentDistance -= scroll * zoomSpeed;
         currentDistance = Mathf.Clamp(currentDistance, minDistance, maxDistance);
-        
-        Vector3 desiredPosition;
-        
-        if (rotateWithCar)
-        {
-            desiredPosition = target.position - target.forward * currentDistance + Vector3.up * height;
-        }
-        else
-        {
-            desiredPosition = target.position - Vector3.forward * currentDistance + Vector3.up * height;
-        }
-        
+
+        Vector3 desiredPosition = target.position - target.forward * currentDistance + Vector3.up * height;
+
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-        
         transform.LookAt(target.position + Vector3.up * 1f);
     }
-    
 }

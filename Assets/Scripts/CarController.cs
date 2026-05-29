@@ -1,12 +1,12 @@
-using UnityEngine;
 using Unity.Netcode;
+using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarController : NetworkBehaviour
 {
-    public float moveSpeed = 15f;
-    public float turnSpeed = 100f;
-    public float acceleration = 5f;
-    public float gravityForce = 20f;
+    [Header("Настройки движения")]
+    public float moveSpeed = 20f;
+    public float turnSpeed = 120f;
+    public float acceleration = 6f;
 
     private float currentSpeed = 0f;
     private float currentTurn = 0f;
@@ -19,54 +19,34 @@ public class CarController : MonoBehaviour
 
         rb.mass = 1f;
         rb.drag = 2f;
-        rb.angularDrag = 2f;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        
-        // ДИАГНОСТИКА
-        NetworkObject net = GetComponent<NetworkObject>();
-        Debug.Log($"=== CarController START ===");
-        Debug.Log($"GameObject name: {gameObject.name}");
-        Debug.Log($"IsOwner: {(net != null ? net.IsOwner.ToString() : "NO NETWORK OBJECT")}");
-        Debug.Log($"enabled: {enabled}");
+        rb.angularDrag = 3f;
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Update()
     {
-        // ДИАГНОСТИКА - пишет каждую секунду
-        if (Time.frameCount % 60 == 0)
-        {
-            NetworkObject net = GetComponent<NetworkObject>();
-            Debug.Log($"=== CarController UPDATE ===");
-            Debug.Log($"GameObject name: {gameObject.name}");
-            Debug.Log($"IsOwner: {(net != null ? net.IsOwner.ToString() : "NO NETWORK OBJECT")}");
-            Debug.Log($"enabled: {enabled}");
-            Debug.Log($"Input vertical: {Input.GetAxis("Vertical")}");
-        }
-        
-        if (!enabled) return;
-        
+        if (!IsOwner || !enabled) return;
+
         float vertical = Input.GetAxis("Vertical");
         float turn = 0f;
 
         if (Input.GetKey(KeyCode.Q)) turn = -1f;
         else if (Input.GetKey(KeyCode.E)) turn = 1f;
 
-        float accelerationCoef = Input.GetKey(KeyCode.LeftShift) ? 1.75f : 1f;
+        float accelCoef = Input.GetKey(KeyCode.LeftShift) ? 1.75f : 1f;
 
-        currentSpeed = Mathf.Lerp(currentSpeed, vertical * moveSpeed * accelerationCoef, Time.deltaTime * acceleration);
+        currentSpeed = Mathf.Lerp(currentSpeed, vertical * moveSpeed * accelCoef, Time.deltaTime * acceleration);
         currentTurn = Mathf.Lerp(currentTurn, turn * turnSpeed, Time.deltaTime * acceleration);
     }
 
     void FixedUpdate()
     {
-        if (!enabled) return;
-        
-        Vector3 moveDirection = transform.forward * currentSpeed;
-        moveDirection.y = 0;
-        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
+        if (!IsOwner || !enabled) return;
+
+        Vector3 moveDir = transform.forward * currentSpeed;
+        rb.velocity = new Vector3(moveDir.x, rb.velocity.y, moveDir.z);
 
         rb.angularVelocity = new Vector3(0, currentTurn * Mathf.Deg2Rad, 0);
-
-        rb.AddForce(Vector3.down * gravityForce, ForceMode.Acceleration);
     }
 }

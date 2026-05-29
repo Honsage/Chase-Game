@@ -4,38 +4,44 @@ using UnityEngine;
 public class NetworkPlayer : NetworkBehaviour
 {
     private CarController carController;
-    
-    private void Awake()
-    {
-        carController = GetComponent<CarController>();
-    }
-    
+    private HeroStats heroStats;
+
     public override void OnNetworkSpawn()
     {
-        Debug.Log($"=== NetworkPlayer OnNetworkSpawn ===");
-        Debug.Log($"GameObject: {gameObject.name}");
-        Debug.Log($"IsOwner: {IsOwner}");
-        Debug.Log($"IsLocalPlayer: {IsLocalPlayer}");
-        Debug.Log($"OwnerClientId: {OwnerClientId}");
-        
+        Debug.Log($"[NetworkPlayer] SPAWN | LocalClientId={NetworkManager.Singleton.LocalClientId} | IsOwner={IsOwner} | IsServer={IsServer} | Object={gameObject.name}");
+
+        carController = GetComponent<CarController>();
+        heroStats = GetComponent<HeroStats>();
+
         if (carController != null)
         {
-            carController.enabled = IsOwner;
-            Debug.Log($"CarController.enabled set to: {carController.enabled}");
+            bool shouldEnable = IsOwner;
+            carController.enabled = shouldEnable;
+            
+            Debug.Log($"[NetworkPlayer] CarController.enabled = {shouldEnable} на {gameObject.name} (IsOwner = {IsOwner})");
         }
-        
+
         if (IsOwner)
         {
-            Camera mainCam = Camera.main;
-            if (mainCam != null)
-            {
-                FollowCamera followCamera = mainCam.GetComponent<FollowCamera>();
-                if (followCamera != null)
-                {
-                    followCamera.target = transform;
-                    Debug.Log($"Camera target set to: {gameObject.name}");
-                }
-            }
+            Debug.Log($"[NetworkPlayer] Это МОЯ машина! Настраиваю камеру и UI.");
+
+            var follow = Camera.main?.GetComponent<FollowCamera>();
+            if (follow != null)
+                follow.target = transform;
+
+            var ui = FindObjectOfType<UIHealthSubscriber>();
+            if (ui != null && heroStats != null)
+                ui.SetTarget(heroStats);
         }
+        else
+        {
+            Debug.Log($"[NetworkPlayer] Это ЧУЖАЯ машина. Управление отключено.");
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (carController != null)
+            carController.enabled = false;
     }
 }

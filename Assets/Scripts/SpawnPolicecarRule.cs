@@ -1,42 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode;
 
-public class SpawnCarRule : MonoBehaviour
+public class SpawnCarRule : NetworkBehaviour
 {
-    public GameObject enemyPrefab;      
+    [Header("Настройки спавна")]
+    public GameObject enemyPrefab;
     public float spawnInterval = 10f;
     public int maxEnemies = 3;
     public float spawnRadius = 25f;
     public float minSpawnDistance = 10f;
-    
+
     private int spawnedEnemies = 0;
-    
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        // Только хост спавнит полицию
-        if (NetworkManager.Singleton.IsHost)
-        {
-            InvokeRepeating(nameof(TrySpawnEnemy), 2f, spawnInterval);
-        }
+        if (!IsServer) return;
+
+        InvokeRepeating(nameof(TrySpawnEnemy), 2f, spawnInterval);
     }
-    
+
     void TrySpawnEnemy()
     {
         if (spawnedEnemies >= maxEnemies) return;
-        
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length == 0) return;
-        
+
         Transform randomPlayer = players[Random.Range(0, players.Length)].transform;
-        
+
         for (int i = 0; i < 15; i++)
         {
-            Vector3 randomDir = Random.insideUnitSphere * spawnRadius;
-            randomDir += randomPlayer.position;
-            
+            Vector3 randomDir = Random.insideUnitSphere * spawnRadius + randomPlayer.position;
+
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomDir, out hit, spawnRadius, NavMesh.AllAreas))
             {
@@ -44,20 +40,25 @@ public class SpawnCarRule : MonoBehaviour
                 {
                     GameObject enemy = Instantiate(enemyPrefab, hit.position, Quaternion.identity);
                     NetworkObject netObj = enemy.GetComponent<NetworkObject>();
-                    
+
                     if (netObj != null)
                     {
-                        netObj.Spawn();
+                        netObj.Spawn(true); // Спавним на сервере
                         spawnedEnemies++;
-                        Debug.Log($"Полицейская машина заспавнена на хосте и синхронизирована");
+                        Debug.Log($"[Spawn] Полицейская машина #{spawnedEnemies} заспавнена");
                     }
                     else
                     {
-                        Debug.LogError("На префабе полицейской машины нет компонента NetworkObject!");
+                        Debug.LogError("На префабе PoliceCar нет NetworkObject!");
                     }
                     return;
                 }
             }
         }
+    }
+
+    public override void OnDestroy()
+    {
+        CancelInvoke(nameof(TrySpawnEnemy));
     }
 }

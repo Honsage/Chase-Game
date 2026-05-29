@@ -264,6 +264,8 @@ GameObject:
   - component: {fileID: 4518199818306711042}
   - component: {fileID: 2892782673692012406}
   - component: {fileID: 9058136884378993099}
+  - component: {fileID: 888378064137466436}
+  - component: {fileID: 1961101737146544061}
   m_Layer: 0
   m_Name: Hero2
   m_TagString: Player
@@ -324,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1447493682
+  GlobalObjectIdHash: 1088343563
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -345,10 +347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0908b878843b4474b8767c6d768ce910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
-  turnSpeed: 100
-  acceleration: 5
-  gravityForce: 20
+  moveSpeed: 22
+  turnSpeed: 140
+  acceleration: 7
 --- !u!114 &4518199818306711042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,8 +378,6 @@ MonoBehaviour:
   currentHealth:
     m_InternalValue: 0
   gameTime: 0
-  hitParticles: {fileID: 0}
-  hitSound: {fileID: 0}
 --- !u!114 &9058136884378993099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +390,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468f5d6e03a5aa54da1b32d854e57422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &888378064137466436
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854674269076335722}
+  serializedVersion: 4
+  m_Mass: 120
+  m_Drag: 3
+  m_AngularDrag: 3
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1961101737146544061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854674269076335722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &7345895073874170297
 GameObject:
   m_ObjectHideFlags: 0
