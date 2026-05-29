@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class CarController : MonoBehaviour
 {
@@ -16,25 +15,35 @@ public class CarController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            rb = gameObject.AddComponent<Rigidbody>();
-        }
+        if (rb == null) rb = gameObject.AddComponent<Rigidbody>();
 
         rb.mass = 1f;
         rb.drag = 2f;
         rb.angularDrag = 2f;
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        
+        // ДИАГНОСТИКА
+        NetworkObject net = GetComponent<NetworkObject>();
+        Debug.Log($"=== CarController START ===");
+        Debug.Log($"GameObject name: {gameObject.name}");
+        Debug.Log($"IsOwner: {(net != null ? net.IsOwner.ToString() : "NO NETWORK OBJECT")}");
+        Debug.Log($"enabled: {enabled}");
     }
 
     void Update()
     {
-        if (!enabled) return;
-        
-        if (Input.anyKeyDown)
+        // ДИАГНОСТИКА - пишет каждую секунду
+        if (Time.frameCount % 60 == 0)
         {
-            Debug.Log($"Key pressed: Vertical={Input.GetAxis("Vertical")}, Q={Input.GetKey(KeyCode.Q)}, E={Input.GetKey(KeyCode.E)}");
+            NetworkObject net = GetComponent<NetworkObject>();
+            Debug.Log($"=== CarController UPDATE ===");
+            Debug.Log($"GameObject name: {gameObject.name}");
+            Debug.Log($"IsOwner: {(net != null ? net.IsOwner.ToString() : "NO NETWORK OBJECT")}");
+            Debug.Log($"enabled: {enabled}");
+            Debug.Log($"Input vertical: {Input.GetAxis("Vertical")}");
         }
+        
+        if (!enabled) return;
         
         float vertical = Input.GetAxis("Vertical");
         float turn = 0f;
@@ -50,6 +59,8 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!enabled) return;
+        
         Vector3 moveDirection = transform.forward * currentSpeed;
         moveDirection.y = 0;
         rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);

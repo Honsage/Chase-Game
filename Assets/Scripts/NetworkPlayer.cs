@@ -12,9 +12,16 @@ public class NetworkPlayer : NetworkBehaviour
     
     public override void OnNetworkSpawn()
     {
+        Debug.Log($"=== NetworkPlayer OnNetworkSpawn ===");
+        Debug.Log($"GameObject: {gameObject.name}");
+        Debug.Log($"IsOwner: {IsOwner}");
+        Debug.Log($"IsLocalPlayer: {IsLocalPlayer}");
+        Debug.Log($"OwnerClientId: {OwnerClientId}");
+        
         if (carController != null)
         {
             carController.enabled = IsOwner;
+            Debug.Log($"CarController.enabled set to: {carController.enabled}");
         }
         
         if (IsOwner)
@@ -26,10 +33,9 @@ public class NetworkPlayer : NetworkBehaviour
                 if (followCamera != null)
                 {
                     followCamera.target = transform;
+                    Debug.Log($"Camera target set to: {gameObject.name}");
                 }
             }
         }
-        
-        Debug.Log($"NetworkPlayer: IsOwner={IsOwner}");
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 public class PoliceCar : MonoBehaviour
 {
-    public Transform player;
     public Light redLight;
     public Light blueLight;
     public AudioSource sirenAudio;
@@ -16,23 +15,13 @@ public class PoliceCar : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         
-        if (player == null)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-                player = playerObj.transform;
-        }
-
-
         if (anim != null)
         {
             anim.updateMode = AnimatorUpdateMode.Normal;
             anim.Play("PoliceCar_Siren", 0, 0);
             anim.speed = 1f;
-            Debug.Log("Animator started playing: " + anim.GetCurrentAnimatorStateInfo(0).length);
-
         }
-
+        
         if (sirenAudio != null)
         {
             sirenAudio.loop = true;
@@ -42,29 +31,34 @@ public class PoliceCar : MonoBehaviour
     
     void Update()
     {
-        if (player != null && agent != null)
+        // Находим ближайшего игрока
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        Transform closestPlayer = null;
+        float closestDistance = float.MaxValue;
+        
+        foreach (GameObject player in players)
         {
-            agent.SetDestination(player.position);
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            if (dist < closestDistance)
+            {
+                closestDistance = dist;
+                closestPlayer = player.transform;
+            }
         }
-
-        if (anim != null)
+        
+        if (closestPlayer != null && agent != null)
         {
-            AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-            Debug.Log("Normalized time: " + stateInfo.normalizedTime);
+            agent.SetDestination(closestPlayer.position);
         }
-
-        if (sirenAudio != null && player != null)
+        
+        // Звук от ближайшего игрока
+        if (sirenAudio != null && closestPlayer != null)
         {
-            float distance = Vector3.Distance(transform.position, player.position);
+            float distance = Vector3.Distance(transform.position, closestPlayer.position);
             float maxDistance = 30f;
             float minDistance = 3f;
-            
             float volume = 1f - Mathf.Clamp01((distance - minDistance) / (maxDistance - minDistance));
-            
             sirenAudio.volume = volume;
-            Debug.Log($"Distance: {distance:F1}, Volume: {volume:F2}");
         }
     }
-
-    
 }
