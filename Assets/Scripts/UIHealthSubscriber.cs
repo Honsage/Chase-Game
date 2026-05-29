@@ -11,7 +11,6 @@ public class UIHealthSubscriber : MonoBehaviour
 
     public void SetTarget(HeroStats stats)
     {
-        // Отписываемся от старого
         if (targetStats != null)
         {
             targetStats.OnHealthChanged -= UpdateHealth;
@@ -25,15 +24,18 @@ public class UIHealthSubscriber : MonoBehaviour
             targetStats.OnHealthChanged += UpdateHealth;
             targetStats.OnTimeChanged += UpdateTimer;
 
-            // Принудительное обновление
             UpdateHealth(targetStats.currentHealth.Value, targetStats.maxHealth);
+            UpdateTimer(targetStats.gameTime);
         }
     }
 
     private void UpdateHealth(float current, float max)
     {
-        if (healthBarFill != null) healthBarFill.fillAmount = current / max;
-        if (healthText != null) healthText.text = $"{Mathf.RoundToInt(current)} / {Mathf.RoundToInt(max)}";
+        if (healthBarFill != null)
+            healthBarFill.fillAmount = Mathf.Clamp01(current / max);
+
+        if (healthText != null)
+            healthText.text = $"{Mathf.RoundToInt(current)} / {Mathf.RoundToInt(max)}";
     }
 
     private void UpdateTimer(float time)
@@ -43,6 +45,14 @@ public class UIHealthSubscriber : MonoBehaviour
             int minutes = Mathf.FloorToInt(time / 60);
             int seconds = Mathf.FloorToInt(time % 60);
             timerText.text = $"{minutes:00}:{seconds:00}";
+        }
+    }
+
+    private void Update()
+    {
+        if (targetStats != null && healthBarFill.fillAmount == 0 && targetStats.currentHealth.Value > 0)
+        {
+            UpdateHealth(targetStats.currentHealth.Value, targetStats.maxHealth);
         }
     }
 }

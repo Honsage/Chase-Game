@@ -38,7 +38,6 @@ public class PoliceCar : MonoBehaviour
             agent.SetDestination(closestPlayer.position);
         }
 
-        // Динамическая громкость сирены
         if (sirenAudio != null && closestPlayer != null)
         {
             float distance = Vector3.Distance(transform.position, closestPlayer.position);

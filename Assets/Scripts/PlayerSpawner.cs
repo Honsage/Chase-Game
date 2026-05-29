@@ -8,15 +8,15 @@ public class PlayerSpawner : NetworkBehaviour
     public GameObject Hero2Prefab;
 
     [Header("Точки спавна")]
-    public Transform SpawnPoint1; // Хост - Hero1
-    public Transform SpawnPoint2; // Клиент - Hero2
+    public Transform SpawnPoint1;
+    public Transform SpawnPoint2;
 
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        SpawnPlayer(0); // Спавним хоста
+        SpawnPlayer(0);
     }
 
     private void OnClientConnected(ulong clientId)

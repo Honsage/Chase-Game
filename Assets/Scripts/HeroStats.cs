@@ -7,7 +7,7 @@ public class HeroStats : NetworkBehaviour
     public float maxHealth = 100f;
     public NetworkVariable<float> currentHealth = new NetworkVariable<float>(100f, 
         NetworkVariableReadPermission.Everyone, 
-        NetworkVariableWritePermission.Owner);   // ← Изменено
+        NetworkVariableWritePermission.Owner);
 
     public float gameTime = 0f;
     private bool isGameOver = false;
@@ -18,7 +18,9 @@ public class HeroStats : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
+        {
             currentHealth.Value = maxHealth;
+        }
 
         currentHealth.OnValueChanged += (oldVal, newVal) =>
         {
@@ -26,6 +28,8 @@ public class HeroStats : NetworkBehaviour
             if (newVal <= 0 && IsOwner)
                 GiveUp();
         };
+
+        OnHealthChanged?.Invoke(currentHealth.Value, maxHealth);
     }
 
     void Update()

@@ -5071,9 +5071,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0908b878843b4474b8767c6d768ce910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 22
+  moveSpeed: 15
   turnSpeed: 140
-  acceleration: 7
+  acceleration: 3
 --- !u!114 &4296610611707695450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5220,7 +5220,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 100
   m_Drag: 2
-  m_AngularDrag: 2
+  m_AngularDrag: 3
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
