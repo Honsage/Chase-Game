@@ -1924,9 +1924,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 754145499}
-  playerCar: {fileID: 0}
+  playerCar: {fileID: 6741834366225177811, guid: 11db87a7e66ef8a42bbe2585fa190693, type: 3}
   spawnInterval: 10
-  maxEnemies: 2
+  maxEnemies: 3
   spawnRadius: 50
   minSpawnDistance: 30
 --- !u!4 &1125734697
