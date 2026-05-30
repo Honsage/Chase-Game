@@ -1589,9 +1589,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4842031661853282051, guid: 32f66befd50bec849aa3b049a5ede69e, type: 3}
-  spawnInterval: 10
+  spawnInterval: 7
   maxEnemies: 3
-  spawnRadius: 50
+  spawnRadius: 20
   minSpawnDistanceFromPlayer: 12
   minDistanceFromOtherEnemies: 8
 --- !u!4 &1125734697
@@ -1603,7 +1603,7 @@ Transform:
   m_GameObject: {fileID: 1125734695}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.9, y: 2.5, z: -10}
+  m_LocalPosition: {x: 20.3, y: 2.5, z: 19.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
