@@ -4989,6 +4989,7 @@ GameObject:
   - component: {fileID: 8738135657670550913}
   - component: {fileID: 1432980374613617616}
   - component: {fileID: 1110016021600966371}
+  - component: {fileID: 7532340605022419467}
   m_Layer: 0
   m_Name: Hero1
   m_TagString: Player
@@ -5004,7 +5005,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2778307526294813498}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.94845545, z: -0, w: 0.31691042}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 41.70145, y: 0.4, z: 26.734303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5016,7 +5017,7 @@ Transform:
   - {fileID: 8542957165098303244}
   - {fileID: 7718285796205553759}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -143.048, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5511486618296049528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5072,7 +5073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 15
-  turnSpeed: 140
+  turnSpeed: 120
   acceleration: 3
 --- !u!114 &4296610611707695450
 MonoBehaviour:
@@ -5218,9 +5219,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2778307526294813498}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 1
   m_Drag: 2
-  m_AngularDrag: 3
+  m_AngularDrag: 2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -5268,6 +5269,18 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &7532340605022419467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2778307526294813498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3243633536043464834
 GameObject:
   m_ObjectHideFlags: 0
